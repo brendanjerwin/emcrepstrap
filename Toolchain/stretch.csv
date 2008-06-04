@@ -1,0 +1,7 @@
+Format is tab separated preferences.
+Stretch From Distance Over Extrusion Width (ratio):	2.0
+Maximum Stretch Over Half Extrusion Width (ratio):	0.3
+Travel Stretch Over Extrusion Stretch (ratio):	0.2
+Stretch All Unmodified Files in a Directory	False
+Stretch File	True
+Open File to be Stretched	

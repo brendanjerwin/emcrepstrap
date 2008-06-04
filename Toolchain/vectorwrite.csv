@@ -1,0 +1,6 @@
+Format is tab separated preferences.
+Pixels for the Width of the Extrusion (ratio):	10.0
+Write Scalable Vector Graphics for Skeinforge Chain:	False
+Write Vector Graphics for All Unmodified Files in a Directory	False
+Write Vector Graphics File	True
+Open File to Write Vector Graphics for	

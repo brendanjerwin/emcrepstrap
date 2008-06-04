@@ -1,0 +1,12 @@
+Format is tab separated preferences.
+Extrusion Diameter (mm):	0.5
+Extrusion Density (ratio):	0.9
+Extrusion Width Over Thickness (ratio):	1.0
+Open File to be Sliced	
+Import Coarseness (ratio):	1.0
+Correct Mesh	True
+Unproven Mesh	False
+Import Tiny Details:	True
+Write Scalable Vector Graphics:	False
+Slice All GNU Triangulated Surface Files in a Directory	False
+Slice File	True

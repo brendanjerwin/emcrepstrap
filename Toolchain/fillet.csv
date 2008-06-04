@@ -1,0 +1,11 @@
+Format is tab separated preferences.
+Arc Point	False
+Arc Radius	False
+Arc Segment	False
+Bevel	False
+Do Not Fillet	True
+Fillet Radius Over Half Extrusion Width (ratio):	0.7
+Write Scalable Vector Graphics:	False
+Fillet All Unmodified Files in a Directory	False
+Fillet File	True
+Open File to be Filleted	

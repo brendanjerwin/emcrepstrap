@@ -1,0 +1,118 @@
+#!/usr/bin/env python
+# encoding: utf-8
+"""
+Created by Brendan Erwin on 2008-05-21.
+Copyright (c) 2008 Brendan Erwin. All rights reserved.
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+"""
+
+import sys
+import getopt
+import RepRapArduinoSerialSender
+import MAppCommon
+
+help_message = '''
+M-App for EMC RepStrap.
+
+M104 - Extruder set temperature
+	Sets the target temperature for the extruder in Celsius. 
+
+Usage: M104 P_VALUE [-v]
+		-v : Verbose
+
+Example: M104 50 
+	Sets the extruder target temperature to 50 Celsius.
+
+------------------------------------------------------------------
+
+Copyright (C) 2008 Brendan Erwin
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  
+02110-1301, USA.
+'''
+
+
+class Usage(Exception):
+	def __init__(self, msg):
+		self.msg = msg
+
+
+def main(argv=None):
+
+	gotTemp = False
+	requestedTemp = 0
+	verbose = False
+
+	if argv is None:
+		argv = sys.argv	
+	
+	try:
+		#Remove default "null" values
+		argv = filter(MAppCommon.filterDefault, argv)
+		
+		#Get value of P
+		if len(argv) > 1:	
+			requestedTemp = int(float(argv[1]))
+			gotTemp = True
+			argv.remove(argv[1])
+
+		if gotTemp == False:
+			raise Usage(help_message)			
+		
+		try:
+			opts, args = getopt.getopt(argv[1:], "ho:v", ["help", "output="])
+		except getopt.error, msg:
+			raise Usage(msg)
+	
+		# option processing
+		for option, value in opts:
+			if option == "-v":
+				verbose = True
+			if option in ("-h", "--help"):
+				raise Usage(help_message)
+	
+	except Usage, err:
+		#print >> sys.stderr, sys.argv[0].split("/")[-1] + ": " + str(err.msg)
+		print >> sys.stderr, str(err.msg)
+		print >> sys.stderr, "For help use --help"
+		return 2
+		
+	if verbose:
+		print >> sys.stdout, "Got Target Temperature of: " + str(requestedTemp)
+	
+	sender = RepRapArduinoSerialSender.RepRapArduinoSerialSender(verbose)
+	
+	data = "M104 S" + str(requestedTemp)
+	
+	sender.writeToArduino(data)
+	
+	return 0
+
+if __name__ == "__main__":
+	sys.exit(main())

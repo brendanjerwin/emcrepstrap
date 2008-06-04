@@ -1,0 +1,16 @@
+<pyvcp>
+	<vbox>
+	    <label text="Extruder Temp:" font="helvetica -12 bold"/>
+		<number>
+		    <halpin>"temperature_dro"</halpin>
+		    <font>('Helvetica',15)</font>
+		</number>
+		<meter>
+			<halpin>"temperature_meter"</halpin>
+			<Text>""</Text>
+		    <size>180</size>
+		    <min_>20</min_>
+		    <max_>300</max_>
+		</meter>
+	</vbox>	
+</pyvcp>

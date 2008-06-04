@@ -1,0 +1,2 @@
+linksp Extruder_Temperature pyvcp.temperature_meter
+linksp Extruder_Temperature pyvcp.temperature_dro

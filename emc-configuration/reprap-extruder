@@ -1,0 +1,64 @@
+#!/usr/bin/env python
+# encoding: utf-8
+"""
+Created by Brendan Erwin on 2008-05-21.
+Copyright (c) 2008 Brendan Erwin. All rights reserved.
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+"""
+
+import serial
+import hal
+import sys
+import time
+
+PORT = "/dev/tty.usbserial-FTDOMG4X"
+
+#allow the port to be overridden
+if len(sys.argv) > 1:
+    PORT = sys.argv[1]
+
+#Establish serial link
+ser = serial.Serial(PORT, 19200, timeout=2)
+
+#Setup the HAL component and pins
+c = hal.component("reprap-extruder")
+c.newpin("temperature", hal.HAL_FLOAT, hal.HAL_IN)
+c.ready()
+
+data = ""
+
+try:
+    while 1:
+		time.sleep(1)
+		ser.write("M105")
+		
+		while ser.inWaiting():
+			data += ser.read()
+
+		if len(data) > 0:
+			print >> sys.stdout, data
+			start = data.find("Temp:")
+			if start <> -1:
+				start += 5	
+				end = data.index("\n",start)
+				print >> sys.stdout, data[start:end]
+				c["temperature"] = int(data[start:end])
+		
+		data = ""
+		
+except KeyboardInterrupt:
+    raise SystemExit

@@ -1,0 +1,50 @@
+== M-Apps for EMC2 Based RepStrap ==
+
+These Python apps provide the glue needed to execute RepRap G-Code in the EMC2 system.
+They communicate with an Arduino running the RepRap Arduino Firmware G-Code Interpreter. However, the Arduino only controls the extruder and EMC2 manages the positioning. (That means you should only wire the Arduino to the extruder, not the steppers.)
+
+The Codes:
+
+M101 - Turn extruder on, forward 
+
+M102 - Turn extruder on, reverse 
+
+M103 - Turn extruder off 
+
+M104 - Set extruder temp to P 
+
+M105 - NoOp : Needed so the g code interpreter doesn't barf. 
+
+M106 - Fan on 
+
+M107 - Fan off 
+
+M108 - set max extruder speed, in RPM to P
+
+M109 - 
+ 
+
+M110 - NoOp : Needed so the g code interpreter doesn't barf
+
+
+
+Installation:
+
+First, make sure pySerial (http://pyserial.sourceforge.net) is installed. Search for 'python-serial' in Synaptic on Ubuntu.
+
+	NOTE: At the time of this writing (May 22, 2008) the "py25-serial" package provided by 
+	MacPorts did not work. Installing directly from the source available on SourceForge did.
+
+Second, copy all the M* files and RepRapArduinoSerialSender.py to the correct location. See: 
+
+http://www.linuxcnc.org/docs/html/gcode_main.html#sec:M100-to-M199:
+
+If you change the path value to something new you may wan to make sure the new path doesn't have spaces in it. I can't guaranty it's a problem, but I had bad luck otherwise.
+
+
+Configuration:
+
+Currently the only configuration to be done is to tell the code where the serial port is. Edit RepRapArduinoSerialSender.py and change the line:
+
+	port = "/dev/tty.usbserial-FTDOMG4X"
+	

@@ -1,0 +1,3 @@
+loadusr -W reprap-extruder /dev/ttyUSB0
+
+net Extruder_Temperature <= reprap-extruder.temperature 
